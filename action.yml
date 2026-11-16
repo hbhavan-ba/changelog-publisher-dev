@@ -51,4 +51,5 @@ runs:
         TARGET_BRANCH: ${{ inputs.target-branch }}
         REPOSITORY: ${{ github.repository }}
         COMMIT_SHA: ${{ github.sha }}
+        PR_NUMBER: ${{ github.event.number }}
       run: python "${{ github.action_path }}/scripts/publish_changelog.py"
