@@ -3,6 +3,7 @@ import re
 import time
 import html
 from urllib.parse import urljoin
+from datetime import datetime
 
 import requests
 
@@ -11,7 +12,7 @@ import requests
 # --------------------------------------------------
 
 REPO = os.environ["REPOSITORY"]
-COMMIT_SHA = int(os.environ["COMMIT_SHA"])
+COMMIT_SHA = os.environ["COMMIT_SHA"]
 GH_TOKEN = os.environ["GH_TOKEN"]
 
 BASE_URL = os.environ["CONFLUENCE_URL"].rstrip("/")
@@ -79,7 +80,7 @@ def confluence_request(method, path, **kwargs):
 # --------------------------------------------------
 
 def get_pull_request():
-    pr = github_get(f"commits/{COMMIT_SHA}/pulls")
+    pr = github_get(f"commits/{COMMIT_SHA}")
 
     if not pr["merged"]:
         raise ValueError("Pull request was not merged")
@@ -88,26 +89,6 @@ def get_pull_request():
         raise ValueError("Target branch is not main")
 
     return pr
-
-
-def get_commits():
-    commits = []
-    page = 1
-
-    while True:
-        batch = github_get(
-            f"pulls/{PR_NUMBER}/commits",
-            {"per_page": 100, "page": page},
-        )
-
-        commits.extend(batch)
-
-        if len(batch) < 100:
-            break
-
-        page += 1
-
-    return commits
 
 
 # --------------------------------------------------
@@ -168,32 +149,16 @@ def escape(value):
     return html.escape(str(value), quote=True)
 
 
-def build_merge_entry(pr, commits):
+def build_merge_entry(pr):
     """
     Generate one identifiable merge-history entry.
     """
 
-    marker = f"{REPO}#{PR_NUMBER}"
+    today = datetime.today().strftime('%Y-%m-%d')
 
-    commit_items = []
+    marker = f"{REPO}-{today}"
 
-    for commit in commits:
-        sha = commit["sha"]
-        message = commit["commit"]["message"]
 
-        url = (
-            f"https://github.com/{REPO}/commit/{sha}"
-        )
-
-        commit_items.append(
-            "<li>"
-            f'<a href="{escape(url)}">'
-            f"{escape(sha[:7])}</a>"
-            f"<pre>{escape(message)}</pre>"
-            "</li>"
-        )
-
-    commit_html = "".join(commit_items)
 
     merged_by = (pr.get("merged_by") or {}).get(
         "login", "Unknown"
@@ -202,7 +167,7 @@ def build_merge_entry(pr, commits):
     description = pr.get("body") or "No description"
 
     return f"""
-    <h2>Merge #{PR_NUMBER} - {escape(pr["merged_at"])}</h2>
+    <h2>Merge #{COMMIT_SHA} - {escape(pr["merged_at"])}</h2>
 
     <p>
       <strong>GitHub PR:</strong>
@@ -217,16 +182,12 @@ def build_merge_entry(pr, commits):
     <p>
       <strong>Pull Request:</strong>
       <a href="{escape(pr["html_url"])}">
-        #{PR_NUMBER}
+        #{COMMIT_SHA}
       </a>
     </p>
 
     <h3>Pull Request Description</h3>
     <pre>{escape(description)}</pre>
-
-    <h3>Commits</h3>
-    <ul>{commit_html}</ul>
-
     <hr />
     """
 
@@ -238,7 +199,7 @@ def entry_exists(body):
     The marker is stored as text in the page body.
     """
 
-    marker = f"{REPO}#{PR_NUMBER}"
+    marker = f"{REPO}#{COMMIT_SHA}"
 
     pattern = (
         r"<strong>GitHub PR:</strong>\s*"
@@ -306,7 +267,7 @@ def update_page(page, new_body):
         },
         "version": {
             "number": version + 1,
-            "message": f"GitHub merge #{PR_NUMBER}",
+            "message": f"GitHub merge #{COMMIT_SHA}",
         },
     }
 
@@ -376,7 +337,7 @@ def publish(pr, commits):
         # Prevent duplicate PR entries.
         if entry_exists(current_body):
             print(
-                f"PR #{PR_NUMBER} already published. "
+                f"PR #{COMMIT_SHA} already published. "
                 "Skipping."
             )
             return
@@ -406,9 +367,8 @@ def publish(pr, commits):
 
 def main():
     pr = get_pull_request()
-    commits = get_commits()
 
-    publish(pr, commits)
+    publish(pr)
 
 
 if __name__ == "__main__":
