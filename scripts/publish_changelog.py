@@ -11,7 +11,7 @@ import requests
 # --------------------------------------------------
 
 REPO = os.environ["REPOSITORY"]
-PR_NUMBER = int(os.environ["PR_NUMBER"])
+COMMIT_SHA = int(os.environ["COMMIT_SHA"])
 GH_TOKEN = os.environ["GH_TOKEN"]
 
 BASE_URL = os.environ["CONFLUENCE_URL"].rstrip("/")
@@ -79,7 +79,7 @@ def confluence_request(method, path, **kwargs):
 # --------------------------------------------------
 
 def get_pull_request():
-    pr = github_get(f"pulls/{PR_NUMBER}")
+    pr = github_get(f"commits/{COMMIT_SHA}/pulls")
 
     if not pr["merged"]:
         raise ValueError("Pull request was not merged")
