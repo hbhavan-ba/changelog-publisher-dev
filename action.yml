@@ -3,9 +3,9 @@ name: Publish Changes
 description: Publish GitHub merge history to Confluence
 
 inputs:
-  confluence-page:
+  confluence-url:
     required: true
-    description: Destination for change-log pages to be written to
+    description: Confluence url of organization
 
   confluence-space-id:
     required: true
