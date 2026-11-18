@@ -458,3 +458,4 @@ $RECYCLE.BIN/
 !.vscode/launch.json
 !.vscode/extensions.json
 /src/secretsCopy.json
+src/ChangelogPublisher/.env
