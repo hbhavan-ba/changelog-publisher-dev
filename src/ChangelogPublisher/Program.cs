@@ -9,14 +9,16 @@ using ChangelogPublisher.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
+
 var builder = Host.CreateApplicationBuilder(args);
+
+DotEnv.Load();
 
 builder.Configuration
     .AddEnvironmentVariables();
 
 /// Load environment variables from .env file for local development
-if (builder.Environment.IsDevelopment())
-    DotEnv.Load();
+//if (builder.Environment.IsDevelopment())
 
 builder.Services.AddLogging(opt => opt.AddConsole());
 
