@@ -6,5 +6,5 @@
     <File Path="Dockerfile" />
     <File Path="READ_ME.md" />
   </Folder>
-  <Project Path="src/ChangelogPublisher.csproj" />
+  <Project Path="src/ChangelogPublisher/ChangelogPublisher.csproj" />
 </Solution>
