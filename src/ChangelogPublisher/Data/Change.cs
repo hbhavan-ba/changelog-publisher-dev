@@ -27,11 +27,13 @@ public static class ChangeImpl
             var dateString = change.Timestamp.ToString("MMMM-dd-yyyy");
 
             return $"""
-                Date: {dateString}
-                Authors: {change.Author}
-                Description: {change.Description}
-                Details:
-                {string.Join("\t-" + Environment.NewLine, change.Details)}
+                <b>Date:</b> {dateString}<br/>
+                <b>Authors:</b> {change.Author}<br/>
+                <b>Description:</b> {change.Description}<br/>
+                <b>Details:</b>
+                <ul>
+                {change.Details.Select(x => $"<li>{x}</li>")}
+                </ul>
                 """;
         }
     }

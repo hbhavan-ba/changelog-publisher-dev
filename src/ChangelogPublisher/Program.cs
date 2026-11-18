@@ -41,7 +41,13 @@ builder.Services.AddHttpClient<IChangeService, GithubService>(
     }
 );
 
-builder.Services.AddHttpClient<IPublishService, ConfluenceService>();
+builder.Services.AddHttpClient<IPublishService, ConfluenceService>(
+    client =>
+    {
+        client.BaseAddress = new Uri(
+            "https://api.atlassian.com/ex/confluence/"
+        );
+    });
 
 builder.Services.AddTransient<IChangelogWriterService, ChangelogWriterService>();
 
