@@ -29,8 +29,6 @@ internal class ConfluenceService : IPublishService
     {
         Logger.LogInformation("Writing change to Confluence for space {SpaceId} and parent page {ParentPageId}", PublisherOptions.ConfluenceSpaceId, PublisherOptions.ConfluenceParentPageId);
 
-
-        Console.WriteLine(JsonSerializer.Serialize(change));
         await MakeConfluenceRequest($"{PublisherOptions.ConfluenceCloudId}/wiki/api/v2/pages", change);
     }
 
