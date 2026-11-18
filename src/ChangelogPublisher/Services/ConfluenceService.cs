@@ -63,5 +63,7 @@ internal class ConfluenceService : IPublishService
         var response = await HttpClient.SendAsync(request);
 
         response.EnsureSuccessStatusCode();
+
+        Logger.LogInformation("Successfully wrote changes to Confluence");
     }
 }
