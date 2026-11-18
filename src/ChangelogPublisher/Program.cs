@@ -11,6 +11,11 @@ var builder = Host.CreateApplicationBuilder(args);
 builder.Configuration
     .AddJsonFile("appsettings.Development.json", optional: true);
 
+builder.Services.AddLogging(opt =>
+{
+    opt.AddConsole();
+});
+
 builder.Services.Configure<PublisherOptions>(
     builder.Configuration.GetSection("Publisher")
 );

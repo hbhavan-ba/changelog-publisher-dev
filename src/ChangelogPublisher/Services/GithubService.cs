@@ -1,6 +1,7 @@
 ﻿using ChangelogPublisher.Data;
 using ChangelogPublisher.Data.Configuration;
 using ChangelogPublisher.Models;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -16,15 +17,19 @@ internal class GithubService : IChangeService
 
     HttpClient HttpClient { get; init; }
     PublisherOptions PublisherOptions { get; init; }
+    ILogger<GithubService> Logger { get; init; }
 
     public GithubService(
         HttpClient httpClient,
-        IOptions<PublisherOptions> publisherOptions) =>
-        (HttpClient, PublisherOptions) = 
-            (httpClient, publisherOptions.Value);
+        IOptions<PublisherOptions> publisherOptions,
+        ILogger<GithubService> logger) =>
+        (HttpClient, PublisherOptions, Logger) = 
+            (httpClient, publisherOptions.Value, logger);
 
     public async Task<Change> GetChange()
     {
+        Logger.LogInformation("Getting change from GitHub for repository {Repository} and commit {CommitSHA}", PublisherOptions.Repository, PublisherOptions.CommitSHA);
+
         var pullRequest = await GetPullRequest();
 
         var title = pullRequest.Commit.Message
