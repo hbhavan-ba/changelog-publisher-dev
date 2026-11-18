@@ -9,9 +9,8 @@ internal class EnvironmentVariables
     internal class GitHub
     {
         internal const string GH_TOKEN = "GH_TOKEN";
-        internal const string REPOSITORY = "REPOSITORY";
-        internal const string COMMIT_SHA = "COMMIT_SHA";
-        internal const string BEFORE_SHA = "BEFORE_SHA";
+        internal const string REPOSITORY = "GITHUB_REPOSITORY";
+        internal const string COMMIT_SHA = "GITHUB_SHA";
     }
     internal class  Confluence
     {

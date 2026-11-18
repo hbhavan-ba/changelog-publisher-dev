@@ -8,7 +8,8 @@ using Microsoft.Extensions.Configuration;
 
 var builder = Host.CreateApplicationBuilder(args);
 
-builder.Configuration.AddJsonFile("appsettings.Development.Json");
+builder.Configuration
+    .AddJsonFile("appsettings.Development.json", optional: true);
 
 builder.Services.Configure<PublisherOptions>(
     builder.Configuration.GetSection("Publisher")
@@ -34,8 +35,6 @@ builder.Services.AddHttpClient<IChangeService, GithubService>(
 builder.Services.AddHttpClient<IPublishService, ConfluenceService>();
 
 builder.Services.AddTransient<IChangelogWriterService, ChangelogWriterService>();
-
-builder.Services.AddTransient<PublisherOptions>((_) =>PublisherOptionsImpl.LoadFromEnvironment());
 
 using var host = builder.Build();
 

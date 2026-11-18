@@ -12,10 +12,7 @@ namespace ChangelogPublisher.Services;
 
 internal class GithubService : IChangeService
 {
-    static readonly JsonSerializerOptions JsonOptions = new()
-    {
-        PropertyNameCaseInsensitive = true
-    };
+    JsonSerializerOptions JsonOptions = new() { PropertyNameCaseInsensitive = true };
 
     HttpClient HttpClient { get; init; }
     PublisherOptions PublisherOptions { get; init; }
@@ -59,6 +56,9 @@ internal class GithubService : IChangeService
         var response = await HttpClient.GetAsync(path);
 
         var content = await response.Content.ReadAsStringAsync();
+
+        if (!response.IsSuccessStatusCode)
+            throw new InvalidOperationException($"Request to {path} failed with status code {response.StatusCode}: {content}");
 
         return JsonSerializer.Deserialize<T>(content, JsonOptions)
             ?? throw new InvalidOperationException($"Failed to deserialize response from {path}");

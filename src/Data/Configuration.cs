@@ -4,7 +4,6 @@ public sealed class PublisherOptions
 {
     public required string Repository {get; init; }
     public required string CommitSHA { get; init; }
-    public required string BeforeSHA { get; init; }
     public required string TargetBranch { get; init; } = "main";
 
     public required string GitHubToken { get; init; }
@@ -27,7 +26,6 @@ internal static class PublisherOptionsImpl
         {
             Repository = env(Constants.EnvironmentVariables.GitHub.REPOSITORY),
             CommitSHA = env(Constants.EnvironmentVariables.GitHub.COMMIT_SHA),
-            BeforeSHA = env(Constants.EnvironmentVariables.GitHub.BEFORE_SHA),
             TargetBranch = "main",
             GitHubToken = env(Constants.EnvironmentVariables.GitHub.GH_TOKEN),
             ConfluenceCloudId = env(Constants.EnvironmentVariables.Confluence.CONFLUENCE_CLOUD_ID),

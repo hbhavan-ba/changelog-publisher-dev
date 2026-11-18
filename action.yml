@@ -37,11 +37,7 @@ runs:
   image: Dockerfile
   env:
     Publisher__GitHubToken: ${{ inputs.github-token }}
-    Publisher__Repository: ${{ github.repository }}
-    Publisher__CommitSha: ${{ github.sha }}
-    Publisher__BeforeSha: ${{ github.event.before }}
     Publisher__TargetBranch: ${{ inputs.target-branch }}
-
     Publisher__ConfluenceCloudId: ${{ inputs.confluence-cloud-id }}
     Publisher__ConfluenceSpaceId: ${{ inputs.confluence-space-id }}
     Publisher__ConfluenceParentPageId: ${{ inputs.confluence-parent-page-id }}
