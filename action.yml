@@ -36,12 +36,10 @@ runs:
   using: docker
   image: Dockerfile
   env:
-    Publisher__Repository: ${{ github.repository }}
-    Publisher__CommitSHA: ${{ github.sha }}
-    Publisher__GitHubToken: ${{ inputs.github-token }}
-    Publisher__TargetBranch: ${{ inputs.target-branch }}
-    Publisher__ConfluenceCloudId: ${{ inputs.confluence-url }}
-    Publisher__ConfluenceSpaceId: ${{ inputs.confluence-space-id }}
-    Publisher__ConfluenceParentPageId: ${{ inputs.confluence-parent-page-id }}
-    Publisher__ConfluenceEmail: ${{ inputs.confluence-email }}
-    Publisher__ConfluenceApiToken: ${{ inputs.confluence-api-token }}
+    GH_TOKEN: ${{ inputs.github-token }}
+    TARGET_BRANCH: ${{ inputs.target-branch }}
+    CONFLUENCE_CLOUD_ID: ${{ inputs.confluence-url }}
+    CONFLUENCE_SPACE_ID: ${{ inputs.confluence-space-id }}
+    CONFLUENCE_PARENT_PAGE_ID: ${{ inputs.confluence-parent-page-id }}
+    CONFLUENCE_EMAIL: ${{ inputs.confluence-email }}
+    CONFLUENCE_API_TOKEN: ${{ inputs.confluence-api-token }}

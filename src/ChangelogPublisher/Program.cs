@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using ChangelogPublisher.Data.Configuration;
 using ChangelogPublisher.Services;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 var builder = Host.CreateApplicationBuilder(args);
 
@@ -14,9 +15,7 @@ builder.Configuration
 
 builder.Services.AddLogging(opt => opt.AddConsole());
 
-builder.Services.Configure<PublisherOptions>(
-    builder.Configuration.GetSection("Publisher")
-);
+builder.Services.AddSingleton(Options.Create(PublisherOptionsImpl.LoadFromEnvironment()));
 
 builder.Services.AddHttpClient<IChangeService, GithubService>(
     client =>

@@ -11,6 +11,7 @@ internal class EnvironmentVariables
         internal const string GH_TOKEN = "GH_TOKEN";
         internal const string REPOSITORY = "GITHUB_REPOSITORY";
         internal const string COMMIT_SHA = "GITHUB_SHA";
+        internal const string TARGET_BRANCH = "TARGET_BRANCH";
     }
     internal class  Confluence
     {

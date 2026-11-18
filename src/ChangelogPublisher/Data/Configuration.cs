@@ -26,7 +26,7 @@ internal static class PublisherOptionsImpl
         {
             Repository = env(Constants.EnvironmentVariables.GitHub.REPOSITORY),
             CommitSHA = env(Constants.EnvironmentVariables.GitHub.COMMIT_SHA),
-            TargetBranch = "main",
+            TargetBranch = env(Constants.EnvironmentVariables.GitHub.TARGET_BRANCH),
             GitHubToken = env(Constants.EnvironmentVariables.GitHub.GH_TOKEN),
             ConfluenceCloudId = env(Constants.EnvironmentVariables.Confluence.CONFLUENCE_CLOUD_ID),
             ConfluenceSpaceId = env(Constants.EnvironmentVariables.Confluence.CONFLUENCE_SPACE_ID),
