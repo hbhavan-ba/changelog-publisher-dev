@@ -9,12 +9,10 @@ using Microsoft.Extensions.Configuration;
 var builder = Host.CreateApplicationBuilder(args);
 
 builder.Configuration
-    .AddJsonFile("appsettings.Development.json", optional: true);
+    .AddJsonFile("appsettings.Development.json", optional: true)
+    .AddEnvironmentVariables();
 
-builder.Services.AddLogging(opt =>
-{
-    opt.AddConsole();
-});
+builder.Services.AddLogging(opt => opt.AddConsole());
 
 builder.Services.Configure<PublisherOptions>(
     builder.Configuration.GetSection("Publisher")
