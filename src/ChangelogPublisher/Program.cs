@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using dotenv.net;
+
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
@@ -10,8 +12,11 @@ using Microsoft.Extensions.Options;
 var builder = Host.CreateApplicationBuilder(args);
 
 builder.Configuration
-    .AddJsonFile("appsettings.Development.json", optional: true)
     .AddEnvironmentVariables();
+
+/// Load environment variables from .env file for local development
+if (builder.Environment.IsDevelopment())
+    DotEnv.Load();
 
 builder.Services.AddLogging(opt => opt.AddConsole());
 
