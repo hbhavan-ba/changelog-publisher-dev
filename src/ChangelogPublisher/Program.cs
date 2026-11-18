@@ -12,13 +12,12 @@ using Microsoft.Extensions.Options;
 
 var builder = Host.CreateApplicationBuilder(args);
 
-DotEnv.Load();
+/// Load environment variables from .env file for local development
+if (builder.Environment.IsDevelopment())
+    DotEnv.Load(); 
 
 builder.Configuration
     .AddEnvironmentVariables();
-
-/// Load environment variables from .env file for local development
-//if (builder.Environment.IsDevelopment())
 
 builder.Services.AddLogging(opt => opt.AddConsole());
 

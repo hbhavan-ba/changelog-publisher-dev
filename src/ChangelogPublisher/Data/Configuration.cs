@@ -19,7 +19,7 @@ internal static class PublisherOptionsImpl
 {
     internal static PublisherOptions LoadFromEnvironment()
     {
-        static string env(string path) => Environment.GetEnvironmentVariable(path) is string str && string.IsNullOrWhiteSpace(str)
+        static string env(string path) => Environment.GetEnvironmentVariable(path) is string str && !string.IsNullOrWhiteSpace(str)
             ? str : throw new InvalidOperationException($"Environment variable {path} is missing");
 
         return new PublisherOptions

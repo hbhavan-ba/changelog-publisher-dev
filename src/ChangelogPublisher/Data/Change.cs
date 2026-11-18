@@ -28,11 +28,10 @@ public static class ChangeImpl
 
             return $"""
                 <b>Date:</b> {dateString}<br/>
-                <b>Authors:</b> {change.Author}<br/>
-                <b>Description:</b> {change.Description}<br/>
+                <b>Author:</b> {change.Author}<br/>
                 <b>Details:</b>
                 <ul>
-                {change.Details.Select(x => $"<li>{x}</li>")}
+                {string.Join("", change.Details.Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => $"<li>{x}</li>"))}
                 </ul>
                 """;
         }

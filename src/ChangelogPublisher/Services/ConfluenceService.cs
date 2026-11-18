@@ -5,6 +5,7 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -53,8 +54,12 @@ internal class ConfluenceService : IPublishService
         var creds = Convert.ToBase64String(
             Encoding.UTF8.GetBytes($"{PublisherOptions.ConfluenceEmail}:{PublisherOptions.ConfluenceApiToken}"));
 
-        var request = new HttpRequestMessage(HttpMethod.Post, path);
+        var request = new HttpRequestMessage(HttpMethod.Post, path)
+        {
+            Content = JsonContent.Create(payload)
+        };
 
+        request.Headers.Add("Accept", "application/json");
         request.Headers.Authorization = new AuthenticationHeaderValue("Basic", creds);
 
         var response = await HttpClient.SendAsync(request);
