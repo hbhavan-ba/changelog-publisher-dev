@@ -3,9 +3,9 @@ name: Publish Changes
 description: Publish GitHub merge history to Confluence
 
 inputs:
-  confluence-url:
+  confluence-cloud-id:
     required: true
-    description: Confluence url of organization
+    description: Confluence Cloud ID of organization
 
   confluence-space-id:
     required: true
@@ -38,7 +38,7 @@ runs:
   env:
     GH_TOKEN: ${{ inputs.github-token }}
     TARGET_BRANCH: ${{ inputs.target-branch }}
-    CONFLUENCE_CLOUD_ID: ${{ inputs.confluence-url }}
+    CONFLUENCE_CLOUD_ID: ${{ inputs.confluence-cloud-id }}
     CONFLUENCE_SPACE_ID: ${{ inputs.confluence-space-id }}
     CONFLUENCE_PARENT_PAGE_ID: ${{ inputs.confluence-parent-page-id }}
     CONFLUENCE_EMAIL: ${{ inputs.confluence-email }}
