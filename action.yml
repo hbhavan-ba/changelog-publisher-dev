@@ -43,3 +43,11 @@ runs:
     CONFLUENCE_PARENT_PAGE_ID: ${{ inputs.confluence-parent-page-id }}
     CONFLUENCE_EMAIL: ${{ inputs.confluence-email }}
     CONFLUENCE_API_TOKEN: ${{ inputs.confluence-api-token }}
+  run: |
+    for name in CLOUD_ID SPACE_ID PARENT_ID API_TOKEN; do
+      if [ -z "${!name}" ]; then
+        echo "::error::$name is missing"
+        exit 1
+      fi
+    done
+    echo "All configuration values are present."
